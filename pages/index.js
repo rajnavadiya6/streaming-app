@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import { LiveTv, MusicVideo, Movie } from "@material-ui/icons";
@@ -8,8 +7,6 @@ import {
   fetch_Popular_Movie,
   fetch_TopRated_Movie,
   fetch_Treanding_Movie,
-  BASE_TMDB_IMAGE_URL,
-  MOVIE_APIURL,
 } from "../store/Actions";
 
 import LiveTV from "../components/LiveTV/index";
@@ -30,20 +27,12 @@ function TabPanel(props) {
   );
 }
 
-function App() {
-  const dispatch = useDispatch();
+function App({ liveTvData, popular_data, topRated_data, treanding_Data }) {
   const [value, setValue] = useState(1);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  useEffect(() => {
-    dispatch(fetch_Livetv_data());
-    dispatch(fetch_Popular_Movie());
-    dispatch(fetch_TopRated_Movie());
-    dispatch(fetch_Treanding_Movie());
-  }, []);
 
   return (
     <div>
@@ -53,16 +42,25 @@ function App() {
         <Tab style={{ color: "white" }} icon={<MusicVideo />} label="Music" />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <LiveTV />
+        <LiveTV liveTvData={liveTvData} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Movies BASE_TMDB_IMAGE_URL={BASE_TMDB_IMAGE_URL} API_url={MOVIE_APIURL} />
+        <Movies popular_data={popular_data} topRated_data={topRated_data} treanding_Data={treanding_Data} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         Music
       </TabPanel>
     </div>
   );
+}
+
+App.getInitialProps = async (ctx) => {
+  const liveTvData = await fetch_Livetv_data()
+  const popular_data = await fetch_Popular_Movie();
+  const topRated_data = await fetch_TopRated_Movie();
+  const treanding_Data = await fetch_Treanding_Movie();
+
+  return { liveTvData, popular_data, topRated_data, treanding_Data }
 }
 
 export default App;

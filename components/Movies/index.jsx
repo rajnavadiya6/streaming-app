@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import axios from "axios";
 import { useRouter } from "next/router";
 
@@ -8,9 +7,11 @@ import Grid from "@material-ui/core/Grid";
 import Header from "../Header";
 import { ToastContainer, toast } from "react-toastify";
 
+import { BASE_TMDB_IMAGE_URL, MOVIE_APIURL } from "../../store/Actions";
+
 import "react-toastify/dist/ReactToastify.css";
 
-const AllGridList = ({ data, SearchMovie, BASE_TMDB_IMAGE_URL }) => {
+const AllGridList = ({ data, SearchMovie }) => {
   return data.map((item) => (
     <Grid item xs={12} sm={12} md={2} key={item.id} onClick={() => SearchMovie(item.original_title)}>
       <img className="thum-img" src={`${BASE_TMDB_IMAGE_URL}${item.poster_path}`} alt={item.original_title} />
@@ -19,19 +20,15 @@ const AllGridList = ({ data, SearchMovie, BASE_TMDB_IMAGE_URL }) => {
   ));
 };
 
-function Movies({ BASE_TMDB_IMAGE_URL, API_url }) {
+function Movies({ topRated_data, popular_data, treanding_Data }) {
   const history = useRouter();
-  const popular_data = useSelector(({ Movies }) => Movies.popularMovies);
-  const topRated_data = useSelector(({ Movies }) => Movies.topRatedMovies);
-  const treanding_Data = useSelector(({ Movies }) => Movies.treandingMovies);
-
   const [search, setsearch] = useState("");
   const [isloading, setisloading] = useState(false);
 
   const SearchMovie = (search) => {
     setisloading(true);
     axios
-      .get(`${API_url}/Search/${search}`)
+      .get(`${MOVIE_APIURL}/Search/${search}`)
       .then((respose) => {
         setisloading(false);
         if (respose.data[0]) {
@@ -61,9 +58,9 @@ function Movies({ BASE_TMDB_IMAGE_URL, API_url }) {
         </div>
       )} */}
       <Grid container className="movie-grid">
-        <AllGridList SearchMovie={SearchMovie} data={popular_data} BASE_TMDB_IMAGE_URL={BASE_TMDB_IMAGE_URL} />
-        <AllGridList SearchMovie={SearchMovie} data={topRated_data} BASE_TMDB_IMAGE_URL={BASE_TMDB_IMAGE_URL} />
-        <AllGridList SearchMovie={SearchMovie} data={treanding_Data} BASE_TMDB_IMAGE_URL={BASE_TMDB_IMAGE_URL} />
+        <AllGridList SearchMovie={SearchMovie} data={popular_data} />
+        <AllGridList SearchMovie={SearchMovie} data={topRated_data} />
+        <AllGridList SearchMovie={SearchMovie} data={treanding_Data} />
       </Grid>
 
       <ToastContainer />

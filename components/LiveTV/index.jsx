@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 // import ReactHlsPlayer from "react-hls-player";
-import { useSelector } from "react-redux";
 
 import Autocomplete from "./Autocomplete";
 
 // const Player = ({ url }) => <ReactHlsPlayer url={url} autoplay={false} controls={true} width="100%" height="auto" />;
 const Player = ({ url }) => <h1 url={url} autoplay={false} controls={true} width="100%" height="auto" />;
 
-export default function LiveTV() {
-  const data = useSelector(({ Livetv }) => Livetv.data);
+export default function LiveTV({ liveTvData }) {
+  const data = liveTvData;
   const [playingURL, setplayingURL] = useState("");
 
   const hadlesubmit = (newValue) => {

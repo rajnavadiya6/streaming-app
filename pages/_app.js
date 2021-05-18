@@ -1,22 +1,22 @@
-import { createStore, applyMiddleware } from 'redux'
-import { Provider } from 'react-redux';
-import thunkMiddleware from 'redux-thunk'
-
-import { reducer, initialState } from '../store/Reducers';
+import React from 'react'
+import { DefaultSeo } from 'next-seo';
 
 import '../styles/globals.css'
 
-const store = createStore(
-  reducer,
-  initialState,
-  applyMiddleware(thunkMiddleware),
-);
-
-
 function MyApp({ Component, pageProps }) {
-  return <Provider store={store}>
+  return <React.Fragment>
+    <DefaultSeo
+      title="Movie bazzar"
+      description="Movie bazzar movie review"
+      openGraph={{
+        type: 'website',
+        locale: 'en_IE',
+        url: 'https://movie-bazzar.vercel.app/',
+        site_name: 'Movie bazzar',
+      }}
+    />
     <Component {...pageProps} />
-  </Provider>
+  </React.Fragment>
 }
 
 export default MyApp

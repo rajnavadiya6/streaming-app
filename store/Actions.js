@@ -20,37 +20,24 @@ const TV_APIURL = `${BASED_API_URL}/livetv`;
 export const MOVIE_APIURL = `${BASED_API_URL}/Movie`;
 
 export function fetch_Treanding_Movie() {
-    return dispatch => axios.get(TMDB_Index_Url.Treanding)
-        .then(({ data }) => dispatch({
-            type: TMDB_TREANDIING_MOVIE,
-            payload: data.results
-        }))
+    return axios.get(TMDB_Index_Url.Treanding)
+        .then(({ data }) => data.results)
 }
 
 export function fetch_TopRated_Movie() {
-    return dispatch => axios.get(TMDB_Index_Url.TopRated)
-        .then(({ data }) => dispatch({
-            type: TMDB_TOPRATED_MOVIE,
-            payload: data.results
-        }))
+    return axios.get(TMDB_Index_Url.TopRated)
+        .then(({ data }) => data.results)
 }
 
 export function fetch_Popular_Movie() {
-    return dispatch => axios.get(TMDB_Index_Url.Popular)
-        .then(({ data }) => dispatch({
-            type: TMDB_POPULAR_MOVIE,
-            payload: data.results
-        }))
+    return axios.get(TMDB_Index_Url.Popular)
+        .then(({ data }) => data.results)
 }
 
 export function fetch_Livetv_data() {
     const NO_Allowed_Country = ["BANGLA ENT."];
-    return dispatch => axios.get(TV_APIURL)
+    return axios.get(TV_APIURL)
         .then(({ data }) => {
-            // const allcatg = Array.from(new Set(['ALL', ...data.map(item => item.inf.groupTitle)]))
-            return dispatch({
-                type: FETCH_LIVE_TV_DATA,
-                payload: data.filter(({ inf }) => !NO_Allowed_Country.includes(inf.groupTitle))
-            })
+            return data.filter(({ inf }) => !NO_Allowed_Country.includes(inf.groupTitle))
         })
 }

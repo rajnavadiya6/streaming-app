@@ -9,9 +9,9 @@ function Player() {
   const player = useRef(null);
   const { movieURl } = query;
 
-  useEffect(() => {
-    document.getElementById("btn").click();
-  }, []);
+  // useEffect(() => {
+  //   document.getElementById("btn").click();
+  // }, []);
 
   const handleClickFullscreen = () => {
     if (screenfull.isEnabled) {
