@@ -54,13 +54,16 @@ function App({ liveTvData, popular_data, topRated_data, treanding_Data }) {
   );
 }
 
-App.getInitialProps = async (ctx) => {
+export async function getStaticProps() {
   const liveTvData = await fetch_Livetv_data()
   const popular_data = await fetch_Popular_Movie();
   const topRated_data = await fetch_TopRated_Movie();
   const treanding_Data = await fetch_Treanding_Movie();
-
-  return { liveTvData, popular_data, topRated_data, treanding_Data }
+  return {
+    props: {
+      liveTvData, popular_data, topRated_data, treanding_Data
+    },
+  }
 }
 
 export default App;
